@@ -153,4 +153,19 @@ const getMe = async(userId) => {
 
 
 
-export {register, login, refresh, logout, verifyEmail, forgotPassword, resetPassword};
+
+const devManualVerifyUser = async(email) => {
+    if (process.env.NODE_ENV !== "development") {
+        throw ApiError.forbidden("This endpoint is only available in development mode");
+    }
+    const user = await User.findOne({email});
+    if(!user) throw ApiError.notFound("User not found");
+    
+    await User.findByIdAndUpdate(user._id, {
+        $set: {isVerified: true},
+        $unset: {verificationToken: 1}
+    });
+    
+    return user;
+}
+export {register, login, refresh, logout, verifyEmail, forgotPassword, resetPassword, getMe, devManualVerifyUser};

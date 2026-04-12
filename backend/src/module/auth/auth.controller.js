@@ -50,4 +50,11 @@ const getMe = async(req, res) =>{
     ApiResponse.ok(res, "User Profile", user);
 }
 
-export { register, login, refreshToken, logout, verifyEmail, forgotPassword, resetPassword, getMe };
+
+const devManualVerifyUser = async(req, res) => {
+  const {email} = req.body;
+  if(!email) throw new Error("Email is required");
+  const user = await authService.devManualVerifyUser(email);
+  ApiResponse.ok(res, "User verified successfully for development testing", {user});
+}
+export { register, login, refreshToken, logout, verifyEmail, forgotPassword, resetPassword, getMe, devManualVerifyUser };

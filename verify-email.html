@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Verification | book-my-show</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap");
+      body {
+        font-family: "Outfit", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 flex items-center justify-center p-6">
+    <main class="w-full max-w-md rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-xl p-8 shadow-2xl">
+      <h1 class="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Email Verification</h1>
+      
+      <div id="loading" class="mt-4">
+        <p class="text-slate-400 text-center">Verifying your email...</p>
+        <div class="mt-4 flex justify-center">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
+        </div>
+      </div>
+
+      <div id="success" class="hidden mt-4">
+        <div class="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg mb-4">
+          <p class="text-emerald-400 font-semibold text-center">✓ Email verified successfully!</p>
+        </div>
+        <p class="text-slate-400 text-center mb-4">Your email has been verified. You can now log in to your account.</p>
+        <a href="/login.html" class="w-full block text-center px-4 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 transition font-semibold">Go to Login</a>
+      </div>
+
+      <div id="error" class="hidden mt-4">
+        <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg mb-4">
+          <p class="text-red-400 font-semibold text-center" id="error-message">Verification failed</p>
+        </div>
+        <p class="text-slate-400 text-center mb-4">The verification link may be invalid or expired. You can try registering again.</p>
+        <div class="flex gap-3">
+          <a href="/register.html" class="flex-1 text-center px-4 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-400 transition font-semibold">Register</a>
+          <a href="/index.html" class="flex-1 text-center px-4 py-3 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-700 transition font-semibold">Home</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const API_BASE = "http://localhost:4000/api/auth";
+
+      async function verifyEmail() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token") || window.location.pathname.split("/").pop();
+
+        if (!token) {
+          showError("No verification token provided");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/verify-email/${token}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || result.success === false) {
+            throw new Error(result.message || "Email verification failed");
+          }
+
+          showSuccess();
+        } catch (error) {
+          showError(error.message);
+        }
+      }
+
+      function showSuccess() {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("error").classList.add("hidden");
+        document.getElementById("success").classList.remove("hidden");
+      }
+
+      function showError(message) {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("success").classList.add("hidden");
+        document.getElementById("error").classList.remove("hidden");
+        document.getElementById("error-message").textContent = message;
+      }
+
+      // Start verification when page loads
+      verifyEmail();
+    </script>
+  </body>
+</html>
