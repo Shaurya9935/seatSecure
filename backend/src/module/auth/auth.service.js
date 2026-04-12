@@ -10,7 +10,7 @@ import {
 import { sendVerificationEmail, sendResetPasswordEmail,} from "../../common/config/email.js";
 
 const hashToken = (token) => {
-    crypto.createHash("sha256").update(token).digest("hex");
+    return crypto.createHash("sha256").update(token).digest("hex");
 }
 
 const register = async({name, email, password, role}) => {
@@ -130,7 +130,7 @@ const forgotPassword = async(email) => {
 const resetPassword = async(token, newPassword) => {
     const hashedToken = hashToken(token);
 
-    const user = User.findOne({
+    const user = await User.findOne({
         resetPasswordToken: hashedToken,
         resetPasswordExpires: {$gt: Date.now()}
     }).select("+resetPasswordToken +resetPasswordExpires");

@@ -1,5 +1,6 @@
 import * as authService from "./auth.service.js";
 import ApiResponse from "../../common/utils/api-response.js";
+import ApiError from "../../common/utils/api-error.js";
 
 const register = async (req, res) => {
   const user = await authService.register(req.body);
@@ -53,7 +54,7 @@ const getMe = async(req, res) =>{
 
 const devManualVerifyUser = async(req, res) => {
   const {email} = req.body;
-  if(!email) throw new Error("Email is required");
+  if(!email) throw ApiError.badRequest("Email is required");
   const user = await authService.devManualVerifyUser(email);
   ApiResponse.ok(res, "User verified successfully for development testing", {user});
 }

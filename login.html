@@ -77,8 +77,8 @@
           if (result.data?.accessToken) {
             localStorage.setItem("accessToken", result.data.accessToken);
           }
-          if (result.data?.refreshToken) {
-            localStorage.setItem("refreshToken", result.data.refreshToken);
+          if (result.data?.user) {
+            localStorage.setItem("user", JSON.stringify(result.data.user));
           }
 
           messageEl.textContent = "Login successful. Redirecting...";

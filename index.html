@@ -21,7 +21,7 @@
     <div
       class="max-w-7xl w-full bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-slate-700/50"
     >
-      <div class="flex justify-end gap-3 mb-6">
+      <div class="flex justify-end gap-3 mb-6" id="guest-actions">
         <a
           href="/login.html"
           class="px-4 py-2 rounded-xl border border-cyan-400/60 text-cyan-300 hover:bg-cyan-500/10 transition"
@@ -32,6 +32,19 @@
           class="px-4 py-2 rounded-xl bg-emerald-500 text-white hover:bg-emerald-400 transition"
           >Register</a
         >
+      </div>
+
+      <div class="hidden justify-end items-center gap-3 mb-6" id="user-actions">
+        <p class="text-slate-300">
+          Logged in as
+          <span id="logged-user-name" class="text-emerald-400 font-semibold"></span>
+        </p>
+        <button
+          id="logout-btn"
+          class="px-4 py-2 rounded-xl border border-rose-400/60 text-rose-300 hover:bg-rose-500/10 transition"
+        >
+          Logout
+        </button>
       </div>
 
       <div class="text-center mb-10">
@@ -82,6 +95,39 @@
     </div>
 
     <script>
+      const getCurrentUser = () => {
+        try {
+          return JSON.parse(localStorage.getItem("user") || "null");
+        } catch {
+          return null;
+        }
+      };
+
+      const setupAuthUI = () => {
+        const user = getCurrentUser();
+        const guestActions = document.getElementById("guest-actions");
+        const userActions = document.getElementById("user-actions");
+        const loggedUserName = document.getElementById("logged-user-name");
+        const logoutBtn = document.getElementById("logout-btn");
+
+        if (user?.name) {
+          guestActions.classList.add("hidden");
+          userActions.classList.remove("hidden");
+          userActions.classList.add("flex");
+          loggedUserName.textContent = user.name;
+        } else {
+          guestActions.classList.remove("hidden");
+          userActions.classList.add("hidden");
+          userActions.classList.remove("flex");
+        }
+
+        logoutBtn?.addEventListener("click", () => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("user");
+          window.location.href = "/login.html";
+        });
+      };
+
       async function run() {
         const API_BASE = "http://localhost:4000/api/booking";
         const tbl = document.getElementById("tbl");
@@ -121,9 +167,15 @@
             }
 
             try {
+              const currentUser = getCurrentUser();
+              if (!currentUser?.name) {
+                alert("Please login first to book seats.");
+                window.location.href = "/login.html";
+                return;
+              }
+
               const id = j[i].id; // Safe from loop closure
-              const name = prompt("Enter your name");
-              if (!name) return;
+              const name = currentUser.name;
 
               const res = await fetch(`${API_BASE}/seats/${id}/book`, {
                 method: "PUT",
@@ -158,6 +210,7 @@
           tbl.appendChild(tr);
         }
       }
+      setupAuthUI();
       run();
     </script>
   </body>
