@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         select: false
     }
-})
+}, {timestamps: true})
 
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

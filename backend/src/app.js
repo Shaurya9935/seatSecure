@@ -20,6 +20,13 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/booking", bookingRoutes);
 
+// Redirect password reset links from email to frontend reset page
+app.get("/reset-password/:token", (req, res) => {
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const token = encodeURIComponent(req.params.token);
+    res.redirect(`${frontendUrl}/reset-password.html?token=${token}`);
+});
+
 // Redirect email verification link to API endpoint
 app.get("/verify-email/:token", async (req, res, next) => {
     try {

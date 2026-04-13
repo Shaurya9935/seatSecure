@@ -177,6 +177,10 @@
               const id = j[i].id; // Safe from loop closure
               const name = currentUser.name;
 
+              // Ask for confirmation before booking
+              const confirmBooking = confirm(`Do you want to book seat number ${id}?`);
+              if (!confirmBooking) return;
+
               const res = await fetch(`${API_BASE}/seats/${id}/book`, {
                 method: "PUT",
                 headers: {
