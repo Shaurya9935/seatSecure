@@ -1,3 +1,81 @@
+## Setup Instructions
+
+Follow the steps below to run the project locally.
+
+## 1. Clone the Repository
+git clone https://github.com/Shaurya9935/seatSecure.git
+cd seatsecure-booking-system
+---
+## 2. Backend Setup
+
+Navigate to the backend folder:
+
+cd backend
+
+Install dependencies:
+
+npm install
+---
+## 3. Environment Variables
+
+Create a .env file in the backend directory and add which are given in .env.example
+
+---
+## 4. Database Setup
+Create a SQL database ->
+```
+     CREATE TABLE seats (
+         id SERIAL PRIMARY KEY,
+         name VARCHAR(255),
+        isbooked INT DEFAULT 0
+      );
+    INSERT INTO seats (isbooked)
+    SELECT 0 FROM generate_series(1, 20);
+```
+Update your .env file with correct database credentials
+Create required tables (users, seats)
+
+You can either:
+
+---
+## 5. Run Backend Server
+npm run dev
+
+or
+
+node server.js
+
+Backend will run on:
+
+http://localhost:4000
+## 6. Frontend Setup
+
+Open a new terminal and navigate to frontend:
+
+cd frontend
+
+Install dependencies:
+
+npm install
+
+Run the frontend:
+
+npm run dev
+
+Frontend will run on:
+
+http://localhost:3000
+
+---
+## 7. Usage
+
+Register a new user
+Verify email using Mailtrap inbox
+Login with credentials
+Book available seats
+Try booking the same seat with another user to test concurrency handling
+
+
 # SeatSecure – Scalable Ticket Booking System
 
 SeatSecure is a backend-driven movie ticket booking system inspired by real-world platforms like BookMyShow. The primary focus of this project is to implement a robust authentication system and ensure data consistency during concurrent seat booking using SQL.
