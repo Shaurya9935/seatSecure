@@ -27,13 +27,18 @@ app.get("/reset-password/:token", (req, res) => {
     res.redirect(`${frontendUrl}/reset-password.html?token=${token}`);
 });
 
-// Redirect email verification link to API endpoint
+// Handle email verification link — verify token and redirect to frontend
 app.get("/verify-email/:token", async (req, res, next) => {
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const token = encodeURIComponent(req.params.token);
     try {
         await authService.verifyEmail(req.params.token);
-        res.json({success: true, message: "Email verified successfully"});
+        // Redirect to frontend success page
+        res.redirect(`${frontendUrl}/verify-email.html?verified=true`);
     } catch (err) {
-        next(err);
+        // Redirect to frontend error page with message
+        const msg = encodeURIComponent(err?.message || "Verification failed");
+        res.redirect(`${frontendUrl}/verify-email.html?error=${msg}`);
     }
 });
 

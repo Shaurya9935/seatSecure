@@ -220,25 +220,39 @@
         });
       }
 
-      async function verifyEmail() {
+      function handleVerification() {
         const params = new URLSearchParams(window.location.search);
-        const token = params.get('token') || window.location.pathname.split('/').pop();
 
-        if (!token) { showError('No verification token found in the URL.'); return; }
-
-        try {
-          const response = await fetch(`${API_BASE}/verify-email/${token}`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-          });
-          const result = await response.json();
-
-          if (!response.ok || result.success === false) throw new Error(result.message || 'Email verification failed');
-
+        if (params.get('verified') === 'true') {
+          // Backend already verified — just show success
           showState('state-success');
-        } catch (err) {
-          showError(err.message);
+          return;
         }
+
+        if (params.get('error')) {
+          // Backend returned an error
+          showError(decodeURIComponent(params.get('error')));
+          return;
+        }
+
+        // Fallback: token passed directly to this page (manual navigation)
+        const token = params.get('token') || window.location.pathname.split('/').pop();
+        if (!token || token === 'verify-email.html') {
+          showError('No verification token found. Please use the link from your email.');
+          return;
+        }
+
+        // Call API directly as fallback
+        fetch(`${API_BASE}/verify-email/${token}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+          .then(r => r.json())
+          .then(result => {
+            if (result.success === false) throw new Error(result.message);
+            showState('state-success');
+          })
+          .catch(err => showError(err.message));
       }
 
       function showError(msg) {
@@ -246,7 +260,7 @@
         showState('state-error');
       }
 
-      verifyEmail();
+      handleVerification();
     </script>
   </body>
 </html>
