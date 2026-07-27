@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+
+  /* Custom Color Palette from spec */
+  --color-brand-orange: #FF6D29;
+  --color-brand-brown: #453027;
+  --color-brand-dark: #161316;
+  --color-brand-muted: #BABABA;
+  --color-brand-white: #FFFFFF;
+}
+
+:root {
+  font-family: 'Inter', sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #161316;
+  color: #FFFFFF;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom animations for ambient background effects */
+@keyframes drift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(30px, 40px);
+  }
+}
+
+.animate-drift-slow {
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+.animate-drift-reverse {
+  animation: drift 16s ease-in-out infinite alternate-reverse;
+}
+
+/* Warm background grid overlay */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 109, 41, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 109, 41, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
