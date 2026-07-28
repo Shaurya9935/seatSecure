@@ -1,13 +1,17 @@
-import mongoose from "mongoose"
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
 const connectDB = async () => {
-    if (!process.env.MONGO_URI) {
-        console.warn("MONGO_URI is not set. Skipping MongoDB connection.");
+    if (!process.env.DATABASE_URL) {
+        console.warn("DATABASE_URL is not set. Skipping DB connection.");
         return null;
     }
 
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB connected: ${conn.connection.host}`)
+    const db = drizzle(process.env.DATABASE_URL);
+    console.log(`Database connected: ${conn.connection.host}`)
 }
 
 export default connectDB;
+
+
+
