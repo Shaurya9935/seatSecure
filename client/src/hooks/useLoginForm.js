@@ -1,0 +1,62 @@
+import { useState } from "react";
+
+const API_BASE = 'http://localhost:4000/api/auth';
+
+export const useLoginForm = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Sign in failed');
+      }
+
+      setMessage({
+        text: 'Logged in Successfully! Redirecting...',
+        type: 'success',
+      });
+
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 900);
+    } catch (error) {
+      setMessage({
+        text: error.message || 'Something went wrong, please try again.',
+        type: 'error',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    formData,
+    loading,
+    message,
+    handleChange,
+    handleSubmit,
+  };
+};

@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { useLoginForm } from '../../hooks/useLoginForm';
+import { LoginCard } from '../../components/login/LoginCard';
+import { BackgroundEffects } from '../../components/features/BackgroundEffects';
 
 const LoginPage = () => {
+  const loginFormState = useLoginForm();
   return (
-    <div>
-        <h1>Login Page</h1>
-        <div className="card">
-            
-        </div>
-    </div>
-  )
-}
+    <main className="min-h-screen w-full flex items-center justify-center relative bg-[#161316] p-4">
+      <BackgroundEffects />
+      <LoginCard {...loginFormState} />
+    </main>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

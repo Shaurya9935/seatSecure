@@ -1,6 +1,6 @@
-import React from 'react';
-import { PasswordStrengthBar } from './PasswordStrengthBar';
-import { AlertMessage } from './AlertMessage';
+import React from "react";
+import { PasswordStrengthBar } from "../features/PasswordStrengthBar";
+import { AlertMessage } from "../features/AlertMessage";
 
 /**
  * RegisterForm renders input fields, password strength indicator, submit button, and status alerts

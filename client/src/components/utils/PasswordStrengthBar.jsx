@@ -1,9 +1,9 @@
-import React from 'react';
-import { STRENGTH_COLORS } from '../utils/passwordStrength';
+import React from "react";
+import { STRENGTH_COLORS } from "./passwordStrength";
 
 /**
  * PasswordStrengthBar displays 4 segments representing password strength (Weak, Fair, Good, Strong).
- * 
+ *
  * @param {Object} props
  * @param {number} props.score Current score (0 to 4)
  * @param {string} props.label Text description of strength
@@ -18,7 +18,7 @@ export const PasswordStrengthBar = ({ score, label, color }) => {
           const isActive = segIndex <= score;
           const bgStyle = isActive
             ? { backgroundColor: STRENGTH_COLORS[score - 1] }
-            : { backgroundColor: 'rgba(255, 255, 255, 0.08)' };
+            : { backgroundColor: "rgba(255, 255, 255, 0.08)" };
 
           return (
             <div

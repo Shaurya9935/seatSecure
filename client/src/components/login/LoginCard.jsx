@@ -1,20 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { RegisterForm } from './RegisterForm';
+import { LoginForm } from './LoginForm';
 
 /**
- * RegisterCard renders the glassmorphic card container styled using the warm orange & charcoal palette:
- * - Accent: #FF6D29
- * - Deep Brown: #453027
- * - Background Dark: #161316
- * - Text Muted: #BABABA
- * - Text White: #FFFFFF
+ * LoginCard renders the glassmorphic login card styled with the warm orange & charcoal palette.
  */
-export const RegisterCard = ({
+export const LoginCard = ({
   formData,
   loading,
   message,
-  passwordStrength,
   handleChange,
   handleSubmit,
 }) => {
@@ -36,18 +30,17 @@ export const RegisterCard = ({
 
         {/* Form Title & Subtitle */}
         <h1 className="font-['Outfit'] font-extrabold text-3xl text-[#FFFFFF] mb-1.5 text-center sm:text-left">
-          Create account
+          Welcome back
         </h1>
         <p className="text-[#BABABA] text-sm mb-8 text-center sm:text-left">
-          Register to start booking your favorite seats.
+          Sign in to your account to start booking seats.
         </p>
 
-        {/* Register Form */}
-        <RegisterForm
+        {/* Login Form */}
+        <LoginForm
           formData={formData}
           loading={loading}
           message={message}
-          passwordStrength={passwordStrength}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
         />
@@ -57,12 +50,12 @@ export const RegisterCard = ({
         {/* Footer Navigation Links */}
         <div className="text-center text-sm text-[#BABABA] space-y-2">
           <p>
-            Already have an account?{' '}
+            Don't have an account?{' '}
             <Link
-              to="/login"
+              to="/register"
               className="text-[#FF6D29] font-semibold hover:text-[#FFFFFF] hover:underline transition-colors duration-150"
             >
-              Sign in
+              Create Account
             </Link>
           </p>
           <p>
@@ -70,7 +63,7 @@ export const RegisterCard = ({
               to="/"
               className="text-[#BABABA] text-xs hover:text-[#FFFFFF] transition-colors duration-150"
             >
-              ← Back to seats
+              ← Back to Movies
             </Link>
           </p>
         </div>

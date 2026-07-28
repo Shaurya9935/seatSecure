@@ -1,7 +1,7 @@
-import React from 'react';
-import { BackgroundEffects } from '../../components/BackgroundEffects';
-import { RegisterCard } from '../../components/RegisterCard';
-import { useRegisterForm } from '../../hooks/useRegisterForm';
+import React from "react";
+import { BackgroundEffects } from "../../components/features/BackgroundEffects";
+import { RegisterCard } from "../../components/register/RegisterCard";
+import { useRegisterForm } from "../../hooks/useRegisterForm";
 
 /**
  * RegisterPage component
