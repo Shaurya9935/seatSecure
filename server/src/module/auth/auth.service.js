@@ -1,5 +1,5 @@
 import crypto from "crypto"
-import User from "./auth.model.js"
+import userSchema from "./auth.model.js"
 import ApiError from "../../common/utils/api-error.js"
 import { 
     generateAccessToken,

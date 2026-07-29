@@ -70,8 +70,8 @@
 
 
 
-import { timestamp, text } from "drizzle-orm/mysql-core";
-import { pgTable, varchar } from "drizzle-orm/pg-core";
+
+import { boolean, pgTable, uuid, varchar, timestamp, text } from "drizzle-orm/pg-core";
 
 export const userSchema = pgTable("users",{
     id: uuid('id').primaryKey().defaultRandom(),
@@ -81,7 +81,7 @@ export const userSchema = pgTable("users",{
     email: varchar('email', {length: 255}).notNull(),
     emailVerified: boolean('email_verified').default(false),
 
-    verificationToken: text('verificantion_token'),
+    verificationToken: text('verification_token'),
     refreshToken: text('refresh_token'),
 
     createdAt: timestamp("created_at").defaultNow(),
