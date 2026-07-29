@@ -3,24 +3,27 @@ import ApiResponse from "../../common/utils/api-response.js";
 import { bookSeatService, getSeatsService } from "./booking.service.js";
 
 const getSeats = async (req, res) => {
-    const seats = await getSeatsService();
-    ApiResponse.ok(res, "Seats fetched", seats);
+  const seats = await getSeatsService();
+  ApiResponse.ok(res, "Seats fetched", seats);
 };
 
 const bookSeat = async (req, res) => {
-    const seatId = Number(req.params.id);
-    const name = req.body?.name?.trim();
+  // seatId is now a UUID string, not a numeric id
+  const seatId = req.params.id?.trim();
 
-    if (!Number.isInteger(seatId) || seatId <= 0) {
-        throw ApiError.badRequest("Invalid seat id");
-    }
+  if (!seatId) {
+    throw ApiError.badRequest("Invalid seat id");
+  }
 
-    if (!name) {
-        throw ApiError.badRequest("Name is required to book a seat");
-    }
+  // userId comes from the authenticated user (or body for legacy compat)
+  const userId = req.user?.id || req.body?.userId;
 
-    const result = await bookSeatService(seatId, name);
-    ApiResponse.ok(res, "Seat booked", result);
+  if (!userId) {
+    throw ApiError.unauthorized("You must be logged in to book a seat");
+  }
+
+  const result = await bookSeatService(seatId, userId);
+  ApiResponse.ok(res, "Seat booked", result);
 };
 
 export { getSeats, bookSeat };

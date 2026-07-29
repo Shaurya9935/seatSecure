@@ -1,9 +1,9 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "e6dbe649-743b-4379-800e-6c63d07aa221",
+  "id": "8705adb8-5dbf-4f20-8ea4-69aa3128aa27",
   "prevIds": [
-    "4b239023-8ab5-4533-a2b5-090125fdd951"
+    "945479d8-9e4a-476a-a1fc-38e231dd81bd"
   ],
   "ddl": [
     {
@@ -32,9 +32,22 @@
       "table": "seats"
     },
     {
-      "type": "uuid",
+      "type": "integer",
       "typeSchema": null,
       "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "seat_number",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "seats"
+    },
+    {
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": false,
       "dimensions": 0,
       "default": null,
       "generated": null,
@@ -47,7 +60,7 @@
     {
       "type": "boolean",
       "typeSchema": null,
-      "notNull": false,
+      "notNull": true,
       "dimensions": 0,
       "default": "false",
       "generated": null,
@@ -123,6 +136,19 @@
       "table": "users"
     },
     {
+      "type": "varchar(20)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'customer'",
+      "generated": null,
+      "identity": null,
+      "name": "role",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
       "type": "boolean",
       "typeSchema": null,
       "notNull": false,
@@ -130,7 +156,20 @@
       "default": "false",
       "generated": null,
       "identity": null,
-      "name": "email_verified",
+      "name": "is_verified",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "password",
       "entityType": "columns",
       "schema": "public",
       "table": "users"
@@ -157,6 +196,32 @@
       "generated": null,
       "identity": null,
       "name": "refresh_token",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "reset_password_token",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "users"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "reset_password_expires",
       "entityType": "columns",
       "schema": "public",
       "table": "users"
@@ -223,9 +288,18 @@
       "schema": "public",
       "table": "users",
       "entityType": "pks"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "email"
+      ],
+      "nullsNotDistinct": false,
+      "name": "users_email_key",
+      "schema": "public",
+      "table": "users",
+      "entityType": "uniques"
     }
   ],
-  "renames": [
-    "public.users.verificantion_token->public.users.verification_token"
-  ]
+  "renames": []
 }

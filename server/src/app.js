@@ -20,11 +20,11 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/booking", bookingRoutes);
 
-// Redirect password reset links from email to frontend reset page
+// Redirect password reset links from email to React frontend
 app.get("/reset-password/:token", (req, res) => {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     const token = encodeURIComponent(req.params.token);
-    res.redirect(`${frontendUrl}/reset-password.html?token=${token}`);
+    res.redirect(`${frontendUrl}/reset-password?token=${token}`);
 });
 
 // Handle email verification link — verify token and redirect to frontend
@@ -34,11 +34,11 @@ app.get("/verify-email/:token", async (req, res, next) => {
     try {
         await authService.verifyEmail(req.params.token);
         // Redirect to frontend success page
-        res.redirect(`${frontendUrl}/verify-email.html?verified=true`);
+        res.redirect(`${frontendUrl}/verify-email?verified=true`);
     } catch (err) {
         // Redirect to frontend error page with message
         const msg = encodeURIComponent(err?.message || "Verification failed");
-        res.redirect(`${frontendUrl}/verify-email.html?error=${msg}`);
+        res.redirect(`${frontendUrl}/verify-email?error=${msg}`);
     }
 });
 
