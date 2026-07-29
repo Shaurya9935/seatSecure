@@ -17,5 +17,4 @@ router.get("/verify-email/:token", controller.verifyEmail);
 router.post("/forgot-password",validate(ForgotPasswordDto) ,controller.forgotPassword)
 router.post("/reset-password/:token", validate(ResetPasswordDto), controller.resetPassword);
 router.get("/me", authenticate, controller.getMe)
-router.post("/dev/manual-verify", controller.devManualVerifyUser);
 export default router;
