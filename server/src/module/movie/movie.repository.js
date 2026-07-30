@@ -1,11 +1,14 @@
 import { eq } from "drizzle-orm";
-import { movies } from "./movie.model.js";
+import { movies, screens, shows, theatres } from "./movie.model.js";
 import { db } from "../../common/config/db.js";
 
 export async function findMovieByImdbId(imdbId) {
-    return db.query.movies.findFirst({
-        where: eq(movies.imdbId, imdbId)
-    })
+  const [movie] = await db
+  .select()
+  .from(movies)
+  .where(eq(movies.imdbId, imdbId))
+  .limit(1) 
+  return movie;
 }
 
 export async function findShowsByMovieId(movieId) {
