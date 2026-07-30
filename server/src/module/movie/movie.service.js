@@ -44,7 +44,7 @@ const detail = async (imdbId) => {
   }
 
   return {
-    imdbId: data.imdbId,
+    imdbId: data.imdbID || imdbId,
     title: data.Title,
     plot: data.Plot,
     runtime: data.Runtime,

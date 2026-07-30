@@ -19,4 +19,4 @@ const searchShows = async(req, res) => {
     const data = await movieService.shows(imdbId)
     ApiResponse.ok(res, "Show Details", data)
 }
-export { searchMovies, searchDetails }
+export { searchMovies, searchDetails, searchShows }

@@ -1,12 +1,12 @@
 import { eq, and, gt } from "drizzle-orm";
 import { db } from "../../common/config/db.js";
-import { bookingSchema } from "./booking.model.js";
+import { seats } from "./booking.model.js";
 
 /**
  * Get all seats ordered by creation date.
  */
 export async function getAllSeats() {
-  return db.select().from(bookingSchema).orderBy(bookingSchema.createdAt);
+  return db.select().from(seats).orderBy(seats.createdAt);
 }
 
 /**
@@ -15,8 +15,8 @@ export async function getAllSeats() {
 export async function getSeatById(id) {
   const [seat] = await db
     .select()
-    .from(bookingSchema)
-    .where(eq(bookingSchema.id, id))
+    .from(seats)
+    .where(eq(seats.id, id))
     .limit(1);
   return seat || null;
 }
