@@ -34,9 +34,15 @@ const detail = async (imdbId) => {
   url.searchParams.set("i", imdbId);
 
   const response = await fetch(url);
-  const data = await response.json();
 
-  console.log(data);
+  if(!response.ok) {
+    throw ApiError.internal("Failed to connect OMDb server")
+  }
+  const data = await response.json();
+  if(data.Response === "False"){
+    throw ApiError.notFound(data.Error)
+  }
+
   return {
     imdbId: data.imdbId,
     title: data.Title,
@@ -51,7 +57,16 @@ const detail = async (imdbId) => {
     language: data.Language,
     released: data.Released,
     rated: data.Rated,
-    
+
   };
 };
-export { search, detail };
+
+const shows = async (imdbId) => {
+    const url = new URL(process.env.OMDB_BASE_URL);
+
+    url.searchParams.set("apikey", OMDB_API_KEY);
+    url.searchParams.set("i",imdbId);
+
+    
+}
+export { search, detail, shows };

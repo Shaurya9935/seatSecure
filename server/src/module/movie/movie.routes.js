@@ -6,5 +6,6 @@ const router = Router();
 
 router.get("/search", searchMovies)
 router.get("/:imdbId", searchDetails)
+router.get("/:imdbId/shows", searchShows)
 
 export default router;
