@@ -5,7 +5,12 @@ import * as movieService from "./movie.service.js";
 const searchMovies = async(req, res) => {
     const { q } = req.query
     const data = await movieService.search(q)
-    ApiResponse.ok(res, "search movie route working", data)
+    ApiResponse.ok(res, "Movie Searched Successfully", data)
 }
 
-export { searchMovies }
+const searchDetails = async(req, res) => {
+    const { imdbId } = req.params
+    const data = await movieService.detail(imdbId)
+    ApiResponse.ok(res, "Movie details", data)
+}
+export { searchMovies, searchDetails }
