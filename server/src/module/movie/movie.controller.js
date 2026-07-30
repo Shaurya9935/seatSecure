@@ -16,7 +16,7 @@ const searchDetails = async(req, res) => {
 
 const searchShows = async(req, res) => {
     const {imdbId} = req.params
-    const data = await movieService.shows(imdbId)
+    const data = await movieService.getMovieShows(imdbId)
     ApiResponse.ok(res, "Show Details", data)
 }
 export { searchMovies, searchDetails, searchShows }

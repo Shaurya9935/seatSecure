@@ -1,4 +1,5 @@
 import ApiError from "../../common/utils/api-error.js";
+import { findMovieByImdbId, findShowsByMovieId } from "./movie.repository.js";
 
 const search = async (query) => {
   const url = new URL(process.env.OMDB_BASE_URL);
@@ -35,12 +36,12 @@ const detail = async (imdbId) => {
 
   const response = await fetch(url);
 
-  if(!response.ok) {
-    throw ApiError.internal("Failed to connect OMDb server")
+  if (!response.ok) {
+    throw ApiError.internal("Failed to connect OMDb server");
   }
   const data = await response.json();
-  if(data.Response === "False"){
-    throw ApiError.notFound(data.Error)
+  if (data.Response === "False") {
+    throw ApiError.notFound(data.Error);
   }
 
   return {
@@ -57,16 +58,24 @@ const detail = async (imdbId) => {
     language: data.Language,
     released: data.Released,
     rated: data.Rated,
-
   };
 };
 
-const shows = async (imdbId) => {
-    const url = new URL(process.env.OMDB_BASE_URL);
+async function getMovieShows(imdbId) {
+  // 1. Find movie by imdbId
 
-    url.searchParams.set("apikey", OMDB_API_KEY);
-    url.searchParams.set("i",imdbId);
+  // 2. If movie doesn't exist
+  // throw ApiError.notFound()
 
-    
+  // 3. Get all shows using movie.id
+
+  // 4. Return shows
+  const movie = await findMovieByImdbId(imdbId);
+
+  if (!movie) {
+    throw ApiError.notFound("Movie not found");
+  }
+
+  return await findShowsByMovieId(movie.id);
 }
-export { search, detail, shows };
+export { search, detail, getMovieShows };
