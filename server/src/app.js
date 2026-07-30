@@ -5,6 +5,7 @@ import authRoute from "./module/auth/auth.routes.js";
 import ApiError from "./common/utils/api-error.js";
 import bookingRoutes from "./module/booking/booking.route.js";
 import * as authService from "./module/auth/auth.service.js";
+import movieRoutes from "./module/movie/movie.routes.js";
 
 const app = express();
 app.use(
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/booking", bookingRoutes);
+app.use("/api/movies", movieRoutes);
 
 // Redirect password reset links from email to React frontend
 app.get("/reset-password/:token", (req, res) => {
