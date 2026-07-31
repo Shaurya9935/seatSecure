@@ -1,9 +1,10 @@
-import express from "express";
+import { Router } from "express";
 import { bookSeat, getSeats } from "./booking.controller.js";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/seats", getSeats);
-router.put("/seats/:id/book", bookSeat);
+router.get("/:showId/seats", getSeats);
+// router.put("/seats/:id/book", bookSeat);
+
 
 export default router;

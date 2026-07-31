@@ -1,6 +1,7 @@
 import { eq, and, gt } from "drizzle-orm";
 import { db } from "../../common/config/db.js";
 import { seats } from "./booking.model.js";
+import { shows } from "../movie/movie.model.js";
 
 /**
  * Get all seats ordered by creation date.
@@ -9,14 +10,12 @@ export async function getAllSeats() {
   return db.select().from(seats).orderBy(seats.createdAt);
 }
 
-/**
- * Get a single seat by ID.
- */
-export async function getSeatById(id) {
+
+export async function getShowById(id) {
   const [seat] = await db
     .select()
-    .from(seats)
-    .where(eq(seats.id, id))
+    .from(shows)
+    .where(eq(shows.id, id))
     .limit(1);
   return seat || null;
 }
