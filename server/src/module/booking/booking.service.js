@@ -1,21 +1,42 @@
 import ApiError from "../../common/utils/api-error.js";
-import { getAllSeats, bookSeat, getShowById } from "./booking.repository.js";
 
-export const getShowService = async (showId) => {
-    const seat = await getShowById(showId)
-    console.log(seat)
-  if(!seat){
-    throw ApiError.notFound("Seat not found")
+import {
+  findShowById,
+  findSeatsByScreenId,
+  findBookedSeats,
+} from "./booking.repository.js";
+
+const getSeatsService = async (showId) => {
+  const show = await findShowById(showId);
+
+  if (!show) {
+    throw ApiError.notFound("Show not found");
   }
-  return{
-    title: "working seats route"
+
+  const seats = await findSeatsByScreenId(show.screenId);
+  if(!seats){
+    throw ApiError.notFound("Seats not found")
   }
+
+  const bookedSeats = await findBookedSeats(showId);
+
+  if(!bookedSeats){
+    throw ApiError.notFound("Booked Seats not found")
+  }
+
+  const bookedSeatIds = new Set(bookedSeats.map((seat) => seat.seatId));
+  if(!bookedSeatIds){
+    throw ApiError.notFound("Booked Seat Ids not found")
+  }
+
+  const seatLayout = seats.map((seat) => ({
+    id: seat.id,
+    row: seat.row,
+    number: seat.number,
+    isBooked: bookedSeatIds.has(seat.id),
+  }));
+
+  return seatLayout;
 };
 
-export const bookSeatService = async (seatId, userId) => {
-  try {
-    return await bookSeat(seatId, userId);
-  } catch (err) {
-    throw ApiError.conflict(err.message || "Seat already booked");
-  }
-};
+export { getSeatsService }

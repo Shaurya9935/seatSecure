@@ -1,67 +1,49 @@
-import { eq, and, gt } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "../../common/config/db.js";
-import { seats } from "./booking.model.js";
+
+import {
+  bookings,
+  bookingSeats,
+  seats,
+} from "./booking.model.js";
+
 import { shows } from "../movie/movie.model.js";
 
 /**
- * Get all seats ordered by creation date.
+ * Find a show by its ID
  */
-export async function getAllSeats() {
-  return db.select().from(seats).orderBy(seats.createdAt);
-}
-
-
-export async function getShowById(id) {
-  const [seat] = await db
+export async function findShowById(showId) {
+  const [show] = await db
     .select()
     .from(shows)
-    .where(eq(shows.id, id))
+    .where(eq(shows.id, showId))
     .limit(1);
-  return seat || null;
+
+  return show ?? null;
 }
 
 /**
- * Book a seat atomically — checks availability and marks as booked in one transaction.
+ * Get every seat of a screen
  */
-export async function bookSeat(seatId, userId) {
-  return db.transaction(async (tx) => {
-    // Lock the row and check availability
-    const [seat] = await tx
-      .select()
-      .from(bookingSchema)
-      .where(
-        and(
-          eq(bookingSchema.id, seatId),
-          eq(bookingSchema.isBooked, false)
-        )
-      )
-      .for("update")
-      .limit(1);
-
-    if (!seat) throw new Error("Seat is already booked or does not exist");
-
-    const [updated] = await tx
-      .update(bookingSchema)
-      .set({ isBooked: true, userId })
-      .where(eq(bookingSchema.id, seatId))
-      .returning();
-
-    return updated;
-  });
+export async function findSeatsByScreenId(screenId) {
+  return db
+    .select()
+    .from(seats)
+    .where(eq(seats.screenId, screenId));
 }
 
 /**
- * Seed N empty seats if none exist (idempotent).
+ * Get all booked seats for a particular show
  */
-export async function seedSeatsIfEmpty(count = 20) {
-  const existing = await db.select().from(bookingSchema).limit(1);
-  if (existing.length > 0) return;
-
-  const rows = Array.from({ length: count }, (_, i) => ({
-    seatNumber: i + 1,
-    isBooked: false,
-    userId: null,
-  }));
-  await db.insert(bookingSchema).values(rows);
-  console.log(`[Booking] Seeded ${count} seats.`);
+export async function findBookedSeats(showId) {
+  return db
+    .select({
+      seatId: bookingSeats.seatId,
+    })
+    .from(bookings)
+    .innerJoin(
+      bookingSeats,
+      eq(bookings.id, bookingSeats.bookingId)
+    )
+    .where(eq(bookings.showId, showId));
 }
