@@ -9,4 +9,10 @@ const getSeats = async (req, res) => {
   ApiResponse.ok(res, "Seats fetched", seats);
 };
 
+const bookSeats = async (req, res) => {
+  const { showId } = req.params
+  
+  
+}
+
 export { getSeats };

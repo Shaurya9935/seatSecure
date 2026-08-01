@@ -47,3 +47,10 @@ export async function findBookedSeats(showId) {
     )
     .where(eq(bookings.showId, showId));
 }
+
+export async function findShowById(showId) {
+  return db
+  .select()
+  .from(shows)
+  .where(eq(shows.id, showId)) 
+}
