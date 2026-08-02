@@ -7,7 +7,7 @@ import {
   seats,
 } from "./booking.model.js";
 
-import { shows } from "../movie/movie.model.js";
+import { screens, shows } from "../movie/movie.model.js";
 
 /**
  * Find a show by its ID
@@ -53,4 +53,11 @@ export async function findShowById(showId) {
   .select()
   .from(shows)
   .where(eq(shows.id, showId)) 
+}
+ 
+export async function findScreenById(showId) {
+  return db
+  .select()
+  .from(screens)
+  .where(eq(screens.showId, showId))
 }
