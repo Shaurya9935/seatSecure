@@ -15,4 +15,4 @@ const bookSeats = async (req, res) => {
   
 }
 
-export { getSeats };
+export { getSeats, bookSeats };

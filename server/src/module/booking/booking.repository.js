@@ -55,9 +55,3 @@ export async function findShowById(showId) {
   .where(eq(shows.id, showId)) 
 }
  
-export async function findScreenById(showId) {
-  return db
-  .select()
-  .from(screens)
-  .where(eq(screens.showId, showId))
-}
