@@ -5,6 +5,8 @@ import RegisterPage from './pages/Register/RegisterPage';
 import LoginPage from './pages/Login/LoginPage';
 import AdminPage from './pages/Admin/AdminPage';
 import MoviePage from './pages/movie/MoviePage';
+import SeatPage from './pages/Seats/SeatPage';
+
 
 function App() {
   return (
@@ -13,7 +15,8 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin" element={<AdminPage />} />
-      <Route path="/movie" element={<MoviePage />} />
+      <Route path="/movies/:imdbId" element={<MoviePage />} />
+      <Route path="/booking/:showId/seats" element= {<SeatPage/>} />
     </Routes>
   );
 }

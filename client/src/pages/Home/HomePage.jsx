@@ -6,7 +6,7 @@ import Loader from "../../components/ui/Loader";
 import { useNavigate } from "react-router";
 
 
-const navigate = useNavigate();
+
 const DATE_OPTIONS = [
   { label: "TODAY", date: "30 Jul", day: "Wed" },
   { label: "TOMORROW", date: "31 Jul", day: "Thu" },
@@ -19,6 +19,10 @@ const POSTER_FALLBACK =
   "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=400";
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+
+  
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState("30 Jul");
