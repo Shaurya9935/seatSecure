@@ -4,9 +4,12 @@ import Navbar from "../../components/layout/navbar";
 import Footer from "../../components/layout/footer";
 import Loader from "../../components/ui/Loader";
 import { getShowSeats, createBooking } from "../../api/movie.api";
+import { socket } from "../../socket/socket";
 
 // Rows A–E are standard; F onwards are premium
 const PREMIUM_FROM = "F";
+
+
 
 function isPremiumRow(row) {
   return row >= PREMIUM_FROM;
@@ -39,6 +42,40 @@ const SeatPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const showContext = location.state || {};
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      socket.emit("join-show", showId);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [showId]);
+
+  // Listen for real-time seat updates from other users
+  useEffect(() => {
+    socket.on("seat-booked", ({ seatIds }) => {
+      setSeats((prev) =>
+        prev.map((seat) =>
+          seatIds.includes(seat.id) ? { ...seat, isBooked: true } : seat
+        )
+      );
+      // Also deselect any of those seats if the current user had them selected
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        seatIds.forEach((id) => next.delete(id));
+        return next;
+      });
+    });
+
+    return () => {
+      socket.off("seat-booked");
+    };
+  }, []);
+
 
   const [seats, setSeats] = useState([]);
   const [selectedIds, setSelectedIds] = useState(new Set());

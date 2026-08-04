@@ -1,4 +1,5 @@
 import ApiError from "../../common/utils/api-error.js";
+import { getIO } from "../../socket/socket.js";
 
 import {
   findShowById,
@@ -86,6 +87,9 @@ export async function createBookingService(
     booking.id,
     seatIds,
   );
+
+  // Broadcast to everyone watching this show's seat page
+  getIO().to(showId).emit("seat-booked", { seatIds });
 
   return booking;
 }
