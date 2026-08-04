@@ -33,8 +33,24 @@ export async function findSeatsByIds(seatIds) {
 }
 
 /**
- * Get all booked seats for a show
- * Only returns seats that are requested by the user
+ * Get ALL booked seat IDs for a show (used to render the seat map)
+ */
+export async function findAllBookedSeatsForShow(showId) {
+  return db
+    .select({
+      seatId: bookingSeats.seatId,
+    })
+    .from(bookings)
+    .innerJoin(
+      bookingSeats,
+      eq(bookings.id, bookingSeats.bookingId)
+    )
+    .where(eq(bookings.showId, showId));
+}
+
+/**
+ * Get booked seats for a show filtered by specific seatIds
+ * Used at booking-time to detect conflicts
  */
 export async function findBookedSeats(showId, seatIds) {
   return db

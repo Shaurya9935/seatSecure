@@ -39,6 +39,11 @@ export const useLoginForm = () => {
         type: 'success',
       });
 
+      // Store the access token so authenticated API calls can use it
+      if (result.data?.accessToken) {
+        localStorage.setItem('accessToken', result.data.accessToken);
+      }
+
       setTimeout(() => {
         window.location.href = '/';
       }, 900);

@@ -3,6 +3,7 @@ import ApiError from "../../common/utils/api-error.js";
 import {
   findShowById,
   findSeatsByScreenId,
+  findAllBookedSeatsForShow,
   findBookedSeats,
   createBooking,
   createBookingSeats,
@@ -17,7 +18,7 @@ export async function getSeatsService(showId) {
   }
 
   const seats = await findSeatsByScreenId(show.screenId);
-  const bookedSeats = await findBookedSeats(showId);
+  const bookedSeats = await findAllBookedSeatsForShow(showId);
   const bookedSeatIds = new Set(bookedSeats.map((seat) => seat.seatId));
 
   return seats.map((seat) => ({
