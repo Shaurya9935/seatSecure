@@ -23,7 +23,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/admin", adminRoutes);
-app.use("/api/admin", adminRoutes);
+
 
 // Redirect password reset links from email to React frontend
 app.get("/reset-password/:token", (req, res) => {

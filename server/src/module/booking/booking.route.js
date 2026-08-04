@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { getSeats } from "./booking.controller.js";
+import { bookSeats, getSeats } from "./booking.controller.js";
+import { authenticate } from "../auth/auth.middleware.js";
 
 const router = Router();
 
 router.get("/:showId/seats", getSeats);
-router.post("/", bookSeats)
+router.post("/",authenticate ,bookSeats)
 // router.put("/seats/:id/book", bookSeat);
 
 
