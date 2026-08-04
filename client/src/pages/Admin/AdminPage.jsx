@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/Navbar/navbar';
-import Footer from '../../components/footer/footer';
+import Navbar from '../../components/layout/navbar';
+import Footer from '../../components/layout/footer';
 import { useAdminData } from '../../hooks/useAdminData';
 import { AdminHeader } from '../../components/admin/AdminHeader';
 import { ScheduleShowForm } from '../../components/admin/ScheduleShowForm';

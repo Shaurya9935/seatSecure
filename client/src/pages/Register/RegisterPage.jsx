@@ -1,6 +1,6 @@
 import React from "react";
 import { BackgroundEffects } from "../../components/features/BackgroundEffects";
-import { RegisterCard } from "../../components/register/RegisterCard";
+import { RegisterCard } from "../../components/ui/RegisterCard";
 import { useRegisterForm } from "../../hooks/useRegisterForm";
 
 /**

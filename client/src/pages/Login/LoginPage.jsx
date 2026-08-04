@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLoginForm } from '../../hooks/useLoginForm';
-import { LoginCard } from '../../components/login/LoginCard';
+import { LoginCard } from '../../components/ui/LoginCard';
 import { BackgroundEffects } from '../../components/features/BackgroundEffects';
 
 const LoginPage = () => {
