@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/Navbar/navbar';
 import Footer from '../../components/footer/footer';
-import { useAdminData } from './hooks/useAdminData';
-import { AdminHeader } from './components/AdminHeader';
-import { ScheduleShowForm } from './components/ScheduleShowForm';
-import { ShowsTable } from './components/ShowsTable';
-import { TheatresList } from './components/TheatresList';
+import { useAdminData } from '../../hooks/useAdminData';
+import { AdminHeader } from '../../components/admin/AdminHeader';
+import { ScheduleShowForm } from '../../components/admin/ScheduleShowForm';
+import { ShowsTable } from '../../components/admin/ShowsTable';
+import { TheatresList } from '../../components/admin/TheatresList';
 
 /**
  * AdminPage Component

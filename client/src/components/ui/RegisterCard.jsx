@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { RegisterForm } from "../register/RegisterForm";
+import { RegisterForm } from "./RegisterForm";
 
 /**
  * RegisterCard renders the glassmorphic card container styled using the warm orange & charcoal palette:
