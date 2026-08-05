@@ -3,12 +3,18 @@ import { users } from "./auth.model.js";
 import { db } from "../../common/config/db.js";
 
 export async function findByEmail(email) {
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1);
-  return user || null;
+  try {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    return user || null;
+  } catch (err) {
+    console.error("findByEmail error:", err);
+    console.error("cause:", err.cause);
+    throw err;
+  }
 }
 
 export async function findById(id) {

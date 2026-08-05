@@ -1,13 +1,11 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { sql } from "drizzle-orm";
 import * as schema from "../../db/schema.js";
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is not defined");
 }
-console.log(process.env.DATABASE_URL?.replace(/:[^:@]+@/, ":****@"));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -16,7 +14,10 @@ const pool = new Pool({
   },
 });
 
-export const db = drizzle(pool, { schema });
+// Drizzle ORM v1 expects its node-postgres client in a config object. Passing
+// `pool` directly makes Drizzle construct a second, unconfigured Pool, which
+// defaults to localhost:5432.
+export const db = drizzle({ client: pool, schema });
 
 const connectDB = async () => {
   try {
