@@ -25,11 +25,10 @@ const sendEmail = async (to, subject, html) => {
     subject,
     html,
   });
-  console.log(`[Email] Sent to ${to} | MsgId: ${info.messageId}`);
 };
 
 const sendVerificationEmail = async (email, token) => {
-  const url = `${process.env.CLIENT_URL}/verify-email/${token}`;
+  const url = `${process.env.BACKEND_URL}/verify-email/${token}`;
   await sendEmail(
     email,
     "✅ Verify your SeatSecure email",
@@ -47,7 +46,7 @@ const sendVerificationEmail = async (email, token) => {
 };
 
 const sendResetPasswordEmail = async (email, token) => {
-  const url = `${process.env.CLIENT_URL}/reset-password/${token}`;
+  const url = `${process.env.BACKEND_URL}/reset-password/${token}`;
   await sendEmail(
     email,
     "🔑 Reset your SeatSecure password",
